@@ -3,6 +3,8 @@
 @section('content')
 
     <h1>タスク登録ページ</h1>
+    
+    {!! Form::model($Task, ['route' => 'tasks.store']) !!}
 
     <div class="row">
         <div class="col-6">
