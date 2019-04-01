@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Task;
 
-use App\User; // 追加
-
 use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
@@ -19,9 +17,8 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $data = [];
-        if (\Auth::check()) {
-            $user = \Auth::user();
+        if (Auth::check()) {
+            $user = Auth::user();
             $tasks = $user->tasks()->get();
             
             return view('tasks.index', [
@@ -30,7 +27,7 @@ class TasksController extends Controller
             
         }
         
-        return view('welcome', $data);
+        return view('welcome');
         
     }
 
@@ -80,7 +77,7 @@ class TasksController extends Controller
     {
         $Task = optional(Task::find($id));
 
-        if (\Auth::id() === ($Task->user_id)) {
+        if (Auth::id() === ($Task->user_id)) {
             return view('tasks.show', [
                 'Task' => $Task,]);
         }
@@ -99,7 +96,7 @@ class TasksController extends Controller
     {
         $Task = Task::find($id);
 
-        if (\Auth::id() === $Task->user_id) {
+        if (Auth::id() === $Task->user_id) {
             return view('tasks.edit', [
                 'Task' => $Task,]);
         }
@@ -140,7 +137,7 @@ class TasksController extends Controller
     {
         $Task = Task::find($id);
         
-        if (\Auth::id() === $Task->user_id) {
+        if (Auth::id() === $Task->user_id) {
             $Task->delete();
         }
         
